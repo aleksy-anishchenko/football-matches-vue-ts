@@ -6,9 +6,8 @@ export const useCompetitionStore = defineStore('competitionStore', () => {
     const matches = ref<TMatch[]>([])
     const competition = ref<TCompetition>()
 
-    function setMatches<T>(newMatches: TMatch[]) :T {
+    function setMatches(newMatches: TMatch[]){
         matches.value = newMatches
-        return '' as T;
     }
 
     function setCompetition(newCompetition: TCompetition) {

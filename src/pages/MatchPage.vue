@@ -15,14 +15,12 @@
 import { onMounted } from "vue";
 import { useCompetitionData } from '@/useCompetitionData.ts';
 
-const { id } = defineProps({
-  id: { type: String, required: true }
-})
+const props = defineProps<{ id: number }>();
 
 const { currentMatch, fetchMatchById } = useCompetitionData();
 
 onMounted(() => {
-  fetchMatchById(id);
+  fetchMatchById(Number(props.id));
 });
 
 </script>

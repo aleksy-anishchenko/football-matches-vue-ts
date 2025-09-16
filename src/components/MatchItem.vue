@@ -2,8 +2,8 @@
   <router-link :to="{ name: 'match', params: { id: match.id } }">
     <div class="match">
       <div class="match__meta">
-        <div class="match__time">19:00</div>
-        <div class="match__status">Завершен</div>
+        <div class="match__time">{{ formatTime(match.utcDate) }}</div>
+        <div class="match__status">{{ formatStatus(match.status) }}</div>
       </div>
       <TeamItem :team="match.homeTeam" :key="match.homeTeam.id" side="left"/>
       <MatchScore :score="match.score" />
@@ -13,12 +13,12 @@
 </template>
 
 <script setup lang="ts">
+import type { TMatch } from "@/types/types.ts";
+import { formatTime, formatStatus } from "@/utils.ts";
 import TeamItem from "@/components/TeamItem.vue";
 import MatchScore from "@/components/MatchScore.vue";
 
-defineProps({
-  match: Object,
-})
+defineProps<{ match: TMatch}>();
 </script>
 
 <style scoped>

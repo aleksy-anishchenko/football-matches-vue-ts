@@ -12,10 +12,9 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
-  team: Object,
-  side: String,
-})
+import type { TTeam } from "@/types/types.ts";
+
+defineProps<{ team: TTeam; side: 'left' | 'right' }>()
 </script>
 
 <style scoped>

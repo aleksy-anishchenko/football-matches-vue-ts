@@ -1,11 +1,10 @@
 import { ref } from 'vue';
 import { useCompetitionStore } from "@/competitionStore.ts";
-import type { TCompetitionData } from "@/types/types.ts";
-
+import type { TCompetitionData, TMatch } from "@/types/types.ts";
 
 export const useCompetitionData = () => {
     const store = useCompetitionStore()
-    const currentMatch = ref(null);
+    const currentMatch = ref<TMatch | null>(null)
 
     async function fetchCompetitionData() {
         try {
@@ -16,21 +15,21 @@ export const useCompetitionData = () => {
             })
             const data: TCompetitionData = await response.json()
             store.setCompetition(data.competition)
-            store.setMatches<string>(data.matches)
+            store.setMatches(data.matches)
             console.log(data)
         } catch (e) {
             console.log(e)
         }
     }
 
-    async function fetchMatchById(id: string) {
+    async function fetchMatchById(matchId: number) {
         try {
-            const response = await fetch(`/api/v4/matches/${id}`, {
+            const response = await fetch(`/api/v4/matches/${matchId}`, {
                 headers: {
                     'X-Auth-Token': '35a54fdd83344a17bdf1a99dfc384df8',
                 }
             })
-            const data = await response.json()
+            const data: TMatch = await response.json()
             currentMatch.value = data;
             console.log(data)
         } catch (e) {
@@ -41,7 +40,7 @@ export const useCompetitionData = () => {
     return {
         matches: store.matches,
         competition: store.competition,
-        currentMatch: currentMatch,
+        currentMatch,
         fetchCompetitionData,
         fetchMatchById,
     }
