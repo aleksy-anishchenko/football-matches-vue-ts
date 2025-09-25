@@ -7,7 +7,7 @@
 <script setup lang="ts">
 import type { TScore } from "@/types/types.ts";
 
-defineProps<{ score?: TScore }>()
+defineProps<{ score: TScore }>()
 </script>
 
 <style scoped>

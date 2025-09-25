@@ -5,14 +5,22 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { watch } from "vue";
+import { useCompetitionStore } from '@/competitionStore';
 import { useCompetitionData } from '@/useCompetitionData';
 
-const { fetchCompetitionData } = useCompetitionData();
+const store = useCompetitionStore();
+const { fetchCompetitionData } = useCompetitionData()
 
-onMounted(() => {
-  fetchCompetitionData();
-});
+watch(
+    () => store.selectedCompetition,
+    (newCode) => {
+      if (newCode) {
+        fetchCompetitionData(newCode)
+      }
+    }
+)
+
 </script>
 
 <style>

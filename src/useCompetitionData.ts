@@ -6,9 +6,9 @@ export const useCompetitionData = () => {
     const store = useCompetitionStore()
     const currentMatch = ref<TMatch | null>(null)
 
-    async function fetchCompetitionData() {
+    async function fetchCompetitionData(code: string) {
         try {
-            const response = await fetch('/api/v4/competitions/CL/matches', {
+            const response = await fetch(`/api/v4/competitions/${code}/matches`, {
                 headers: {
                     'X-Auth-Token': '35a54fdd83344a17bdf1a99dfc384df8',
                 }
