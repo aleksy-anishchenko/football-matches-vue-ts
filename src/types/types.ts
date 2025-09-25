@@ -1,3 +1,23 @@
+export enum MatchStatus {
+    SCHEDULED = "SCHEDULED",
+    TIMED = "TIMED",
+    IN_PLAY = "IN_PLAY",
+    PAUSED = "PAUSED",
+    FINISHED = "FINISHED",
+    SUSPENDED = "SUSPENDED",
+    POSTPONED = "POSTPONED",
+    CANCELLED = "CANCELLED",
+    AWARDED = "AWARDED",
+}
+
+export type FilterOption = {
+    id: number
+    name: string
+    code: string
+}
+
+export type FilterOptionList = FilterOption[]
+
 export type TTeam = {
     id: number,
     name: string,
@@ -27,7 +47,7 @@ export type TMatch = {
     id: number,
     utcDate: string,
     lastUpdate: string,
-    status: string,
+    status: MatchStatus,
     matchday: number,
     stage: string,
     group: string | null,

@@ -1,13 +1,13 @@
 <template>
-  <div class="score">
+  <div v-if="score" class="score">
     {{ score.fullTime.home }} - {{ score.fullTime.away }}
   </div>
 </template>
 
 <script setup lang="ts">
-defineProps({
-  score: Object,
-})
+import type { TScore } from "@/types/types.ts";
+
+defineProps<{ score: TScore }>()
 </script>
 
 <style scoped>
