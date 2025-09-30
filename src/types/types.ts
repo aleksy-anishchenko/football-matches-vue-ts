@@ -10,6 +10,11 @@ export enum MatchStatus {
     AWARDED = "AWARDED",
 }
 
+export type Filters = {
+    competition: string;
+    date: Date | null;
+}
+
 export type FilterOption = {
     id: number
     name: string
