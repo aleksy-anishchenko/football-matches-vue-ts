@@ -1,22 +1,24 @@
 import { ref } from 'vue';
 import { useCompetitionStore } from "@/competitionStore.ts";
-import { formatDate } from "@/utils.ts";
-import type { Filters, TCompetitionData, TMatch } from "@/types/types.ts";
+import { formatDate, groupMatchesByDate } from "@/utils.ts";
+import type { MatchSearchFilters, TCompetitionData, TMatch } from "@/types/types.ts";
 
 export const useCompetitionData = () => {
     const store = useCompetitionStore()
     const currentMatch = ref<TMatch | null>(null)
 
-    async function fetchCompetitionData(filters: Filters) {
+    async function fetchCompetitionData(filters: MatchSearchFilters) {
         try {
             let url = `/api/v4/competitions/${filters.competition}/matches`
 
             const params = new URLSearchParams()
 
-            if (filters.date) {
-                const formatted = formatDate(filters.date)
-                params.append("dateFrom", formatted)
-                params.append("dateTo", formatted)
+            if (filters.dateFrom) {
+                params.append("dateFrom", formatDate(filters.dateFrom));
+                params.append(
+                    "dateTo",
+                    filters.dateTo ? formatDate(filters.dateTo) : formatDate(filters.dateFrom)
+                );
             }
 
             const query = params.toString()
@@ -31,9 +33,12 @@ export const useCompetitionData = () => {
             })
 
             const data: TCompetitionData = await response.json()
+
+            const groupedMatches = groupMatchesByDate(data.matches)
+
             store.setCompetition(data.competition)
-            store.setMatches(data.matches)
-            console.log(data)
+            store.setMatches(groupedMatches)
+            console.log(groupedMatches)
         } catch (e) {
             console.log(e)
         }

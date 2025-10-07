@@ -1,12 +1,12 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { TCompetition, TMatch } from "@/types/types.ts";
+import type { TCompetition, MatchesByDate } from "@/types/types.ts";
 
 export const useCompetitionStore = defineStore('competitionStore', () => {
-    const matches = ref<TMatch[]>([])
+    const matches = ref<MatchesByDate>({})
     const competition = ref<TCompetition>()
 
-    function setMatches(newMatches: TMatch[]){
+    function setMatches(newMatches: MatchesByDate){
         matches.value = newMatches
     }
 

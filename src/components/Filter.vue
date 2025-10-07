@@ -1,58 +1,47 @@
 <template>
-  <div>
-    <select v-model="filters.competition">
-      <option value="" disabled hidden>Выберите чемпионат</option>
-      <option
-          v-for="c in competitionOptions"
-          :key="c.id"
-          :value="c.code"
-      >
-        {{ c.name }}
-      </option>
-    </select>
-
-    <input
-        type="text"
-        v-model="dateFormatted"
-        placeholder="Выберите дату"
-        readonly
-        @focus="open = true"
+  <form class="filter-container" @submit.prevent="submitFilters">
+    <Select
+        v-model="filters.competition"
+        :options="competitionOptions"
+        optionLabel="name"
+        optionValue="code"
+        placeholder="Выберите турнир"
+        :invalid="!filters.competition && triedSubmit"
     />
 
-    <div v-if="open" class="calendar-popup">
-      <v-date-picker
-          v-model="filters.date"
-          @update:model-value="handleSelect"
-      />
-    </div>
+    <DatePicker
+        v-model="dateRange"
+        selectionMode="range"
+        :manualInput="false"
+        placeholder="Выберите даты матчей"
+    />
 
-    <button @click="submitFilters">Получить матчи</button>
-  </div>
+    <Button
+        type="submit"
+        label="Показать матчи"
+        severity="secondary"
+    />
+  </form>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, computed } from "vue";
-import { formatDate } from "@/utils.ts";
-import type { Filters, FilterOptionList } from "@/types/types.ts";
+import { reactive, ref } from "vue"
+import Select from 'primevue/select';
+import DatePicker from 'primevue/datepicker';
+import Button from 'primevue/button';
+import type { MatchSearchFilters, FilterOptionList } from "@/types/types.ts";
 
-const filters = reactive<Filters>({
+const filters = reactive<MatchSearchFilters>({
   competition: "",
-  date: null,
+  dateFrom: null,
+  dateTo: null,
 });
 
-const open = ref(false)
-
-const dateFormatted = computed({
-  get: () => (filters.date ? formatDate(filters.date) : ""),
-  set: () => {}
-})
-
-function handleSelect() {
-  open.value = false
-}
+const dateRange = ref<[Date | null, Date | null] | null>(null);
+const triedSubmit = ref(false);
 
 const emit = defineEmits<{
-  (eventName: "filter-submit", payload: Filters): void
+  (eventName: "filter-submit", payload: MatchSearchFilters): void
 }>();
 
 const competitionOptions: FilterOptionList = [
@@ -72,14 +61,29 @@ const competitionOptions: FilterOptionList = [
 ];
 
   function submitFilters() {
+    triedSubmit.value = true;
+
+    if (!filters.competition) {
+      return;
+    }
+
+    if (dateRange.value) {
+      const [from, to] = dateRange.value;
+      filters.dateFrom = from;
+      filters.dateTo = to;
+    } else {
+      filters.dateFrom = null;
+      filters.dateTo = null;
+    }
     emit("filter-submit", filters);
   }
 
 </script>
 
 <style scoped>
-.calendar-popup {
-  position: absolute;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+.filter-container {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
 }
 </style>

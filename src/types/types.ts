@@ -10,9 +10,10 @@ export enum MatchStatus {
     AWARDED = "AWARDED",
 }
 
-export type Filters = {
+export type MatchSearchFilters = {
     competition: string;
-    date: Date | null;
+    dateFrom: Date | null;
+    dateTo: Date | null;
 }
 
 export type FilterOption = {
@@ -66,3 +67,5 @@ export type TCompetitionData = {
     competition: TCompetition,
     matches: TMatch[],
 }
+
+export type MatchesByDate = Record<string, TMatch[]>;

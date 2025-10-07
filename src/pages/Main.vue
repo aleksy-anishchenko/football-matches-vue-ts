@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="title">Результаты матчей</h1>
+    <h1 class="title">Результаты футбольных матчей</h1>
     <Filters @filter-submit="handleSubmit" />
     <Competition />
     <MatchList />
@@ -11,7 +11,7 @@
 import Filters from "@/components/Filter.vue";
 import Competition from "@/components/Competition.vue";
 import MatchList from "@/components/MatchList.vue";
-import type { Filters as FiltersType } from "@/types/types";
+import type { MatchSearchFilters as FiltersType } from "@/types/types";
 import { useCompetitionData } from "@/useCompetitionData.ts";
 const { fetchCompetitionData } = useCompetitionData()
 

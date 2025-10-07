@@ -1,6 +1,19 @@
 <template>
   <div class="match-list">
-    <MatchItem v-for="match in store.matches" :key="match.id" :match="match" />
+    <div
+        v-for="(matches, date) in store.matches"
+        :key="date"
+    >
+      <h2 class="match-date">{{ date }}</h2>
+
+      <div class="match-items">
+        <MatchItem
+            v-for="match in matches"
+            :key="match.id"
+            :match="match"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -13,7 +26,13 @@ const store = useCompetitionStore()
 
 <style scoped>
 .match-list {
-  max-width: 700px;
-  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.match-date {
+  font-weight: bold;
+  font-size: 27px;
 }
 </style>
