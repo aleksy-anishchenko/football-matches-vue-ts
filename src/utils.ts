@@ -8,6 +8,17 @@ export function formatDate(date: Date): string {
     return `${FullYear}-${month}-${day}`
 }
 
+export function formatReadableDate(dateString: string): string {
+    const date = new Date(dateString);
+    const formatted = date.toLocaleDateString('ru-RU', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+    })
+    return formatted.charAt(0).toUpperCase() + formatted.slice(1);
+}
+
 export function formatTime(isoString: string): string {
     const date = new Date(isoString)
     return date.toLocaleTimeString('ru-RU', {

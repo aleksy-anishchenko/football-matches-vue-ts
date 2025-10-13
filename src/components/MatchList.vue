@@ -4,7 +4,7 @@
         v-for="(matches, date) in store.matches"
         :key="date"
     >
-      <h2 class="match-date">{{ date }}</h2>
+      <h2 class="match-date">{{ formatReadableDate(date) }}</h2>
 
       <div class="match-items">
         <MatchItem
@@ -20,6 +20,7 @@
 <script setup lang="ts">
 import MatchItem from "@/components/MatchItem.vue";
 import { useCompetitionStore } from "@/competitionStore.ts";
+import { formatReadableDate } from "@/utils.ts";
 const store = useCompetitionStore()
 
 </script>
@@ -32,7 +33,12 @@ const store = useCompetitionStore()
 }
 
 .match-date {
-  font-weight: bold;
+  margin-bottom: 15px;
+  font-weight: normal;
   font-size: 27px;
+}
+
+.match-items {
+  margin-bottom: 25px;
 }
 </style>

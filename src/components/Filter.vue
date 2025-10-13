@@ -11,6 +11,7 @@
 
     <DatePicker
         v-model="dateRange"
+        locale="ru"
         selectionMode="range"
         :manualInput="false"
         placeholder="Выберите даты матчей"
