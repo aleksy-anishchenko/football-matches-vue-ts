@@ -51,9 +51,7 @@ export const useCompetitionData = () => {
                     'X-Auth-Token': '35a54fdd83344a17bdf1a99dfc384df8',
                 }
             })
-            const data: TMatch = await response.json()
-            currentMatch.value = data;
-            console.log(data)
+            currentMatch.value = await response.json() as TMatch
         } catch (e) {
             console.log(e)
         }

@@ -1,20 +1,27 @@
 <template>
   <form class="filter-container" @submit.prevent="submitFilters">
-    <Select
-        v-model="filters.competition"
-        :options="competitionOptions"
-        optionLabel="name"
-        optionValue="code"
-        placeholder="Выберите турнир"
-        :invalid="!filters.competition && triedSubmit"
-    />
+    <div class="filter-select">
+      <Select
+          v-model="filters.competition"
+          :options="competitionOptions"
+          optionLabel="name"
+          optionValue="code"
+          placeholder="Выберите турнир"
+          :invalid="!filters.competition && triedSubmit"
+          :fluid="true"
+
+      />
+
+    </div>
 
     <DatePicker
         v-model="dateRange"
+        updateModelType="date"
         locale="ru"
         selectionMode="range"
         :manualInput="false"
-        placeholder="Выберите даты матчей"
+        placeholder="Выберите даты"
+        :invalid="isDateRangeInvalid && triedSubmit"
     />
 
     <Button
@@ -26,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue"
+import { reactive, ref, computed } from "vue"
 import Select from 'primevue/select';
 import DatePicker from 'primevue/datepicker';
 import Button from 'primevue/button';
@@ -41,20 +48,24 @@ const filters = reactive<MatchSearchFilters>({
 const dateRange = ref<[Date | null, Date | null] | null>(null);
 const triedSubmit = ref(false);
 
+const isDateRangeInvalid = computed(() => {
+  return !dateRange.value || !dateRange.value[0] || !dateRange.value[1]
+})
+
 const emit = defineEmits<{
   (eventName: "filter-submit", payload: MatchSearchFilters): void
 }>();
 
 const competitionOptions: FilterOptionList = [
   { id: 1, name: "Лига чемпионов", code: "CL" },
-  { id: 2, name: "Чемпионат Англии. Премьер-лига", code: "PL" },
-  { id: 3, name: "Чемпионат Англии. Чемпионшип", code: "ELC" },
-  { id: 4, name: "Чемпионат Испании. Ла лига", code: "PD" },
-  { id: 5, name: "Чемпионат Италии. Серия А", code: "SA" },
-  { id: 6, name: "Чемпионат Германии. Бундеслига 1", code: "BL1" },
-  { id: 7, name: "Чемпионат Франции. Лига 1", code: "FL1" },
-  { id: 8, name: "Чемпионат Нидерландов", code: "DED" },
-  { id: 9, name: "Чемпионат Португалии", code: "PPL" },
+  { id: 2, name: "Англия. Премьер-лига", code: "PL" },
+  { id: 3, name: "Англия. Чемпионшип", code: "ELC" },
+  { id: 4, name: "Испания. Ла лига", code: "PD" },
+  { id: 5, name: "Италия. Серия А", code: "SA" },
+  { id: 6, name: "Германия. Бундеслига 1", code: "BL1" },
+  { id: 7, name: "Франция. Лига 1", code: "FL1" },
+  { id: 8, name: "Нидерландов", code: "DED" },
+  { id: 9, name: "Португалия", code: "PPL" },
   { id: 10, name: "Чемпионат Бразилии", code: "BSA" },
   { id: 11, name: "Кубок Либертадорес", code: "CLI" },
   { id: 12, name: "Чемпионат мира", code: "WC" },
@@ -64,18 +75,15 @@ const competitionOptions: FilterOptionList = [
   function submitFilters() {
     triedSubmit.value = true;
 
-    if (!filters.competition) {
-      return;
-    }
+    if (!filters.competition) return;
 
-    if (dateRange.value) {
-      const [from, to] = dateRange.value;
-      filters.dateFrom = from;
-      filters.dateTo = to;
-    } else {
-      filters.dateFrom = null;
-      filters.dateTo = null;
-    }
+    const [from, to] = dateRange.value ?? [];
+
+    if (!from || !to) return;
+
+    filters.dateFrom = from;
+    filters.dateTo = to;
+
     emit("filter-submit", filters);
   }
 
@@ -86,5 +94,8 @@ const competitionOptions: FilterOptionList = [
   display: flex;
   gap: 15px;
   margin-bottom: 20px;
+}
+.filter-select {
+  width: 240px;
 }
 </style>
