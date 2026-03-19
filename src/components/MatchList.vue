@@ -1,18 +1,17 @@
 <template>
-  <div class="match-list">
-    <div
-        v-for="(matches, date) in store.matches"
-        :key="date"
-    >
-      <h2 class="match-date">{{ formatReadableDate(date) }}</h2>
+  <div
+      v-for="(matches, date) in store.matches"
+      :key="date"
+      class="match-list"
+  >
+    <h2 class="match-date">{{ formatReadableDate(date) }}</h2>
 
-      <div class="match-items">
-        <MatchItem
-            v-for="match in matches"
-            :key="match.id"
-            :match="match"
-        />
-      </div>
+    <div class="match-items">
+      <MatchItem
+          v-for="match in matches"
+          :key="match.id"
+          :match="match"
+      />
     </div>
   </div>
 </template>

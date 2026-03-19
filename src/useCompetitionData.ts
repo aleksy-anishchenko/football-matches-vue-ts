@@ -38,7 +38,6 @@ export const useCompetitionData = () => {
 
             store.setCompetition(data.competition)
             store.setMatches(groupedMatches)
-            console.log(groupedMatches)
         } catch (e) {
             console.log(e)
         }

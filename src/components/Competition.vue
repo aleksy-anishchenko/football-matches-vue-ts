@@ -8,7 +8,6 @@
 <script setup lang="ts">
 import { useCompetitionStore } from "@/competitionStore.ts";
 const store = useCompetitionStore()
-console.log(store.competition)
 
 </script>
 
