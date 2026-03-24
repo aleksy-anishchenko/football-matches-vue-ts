@@ -68,4 +68,11 @@ export type TCompetitionData = {
     matches: TMatch[],
 }
 
+export type User = {
+    id: string;
+    email: string;
+    createdAt: string;
+    updatedAt: string;
+};
+
 export type MatchesByDate = Record<string, TMatch[]>;

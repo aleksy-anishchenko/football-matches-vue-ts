@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { useCompetitionData } from '@/useCompetitionData.ts';
+import { useCompetitionData } from '@/composables/useCompetitionData.ts';
 
 const props = defineProps<{ id: number }>();
 

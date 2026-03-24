@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import MatchItem from "@/components/MatchItem.vue";
-import { useCompetitionStore } from "@/competitionStore.ts";
+import { useCompetitionStore } from "@/stores/competitionStore.ts";
 import { formatReadableDate } from "@/utils.ts";
 const store = useCompetitionStore()
 

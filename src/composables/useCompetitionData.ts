@@ -1,14 +1,21 @@
 import { ref } from 'vue';
-import { useCompetitionStore } from "@/competitionStore.ts";
+import { useCompetitionStore } from "@/stores/competitionStore.ts";
 import { formatDate, groupMatchesByDate } from "@/utils.ts";
 import type { MatchSearchFilters, TCompetitionData, TMatch } from "@/types/types.ts";
+import { refreshTokenRequest } from "@/api/authApi.ts";
+import { useAuthStore } from '@/stores/authStore.ts';
 
 export const useCompetitionData = () => {
     const store = useCompetitionStore()
+    const authStore = useAuthStore()
     const currentMatch = ref<TMatch | null>(null)
 
     async function fetchCompetitionData(filters: MatchSearchFilters) {
         try {
+            const refreshData = await refreshTokenRequest(authStore.refreshToken!);
+
+            authStore.setAccessToken(refreshData.data.accessToken);
+
             let url = `/api/v4/competitions/${filters.competition}/matches`
 
             const params = new URLSearchParams()
@@ -40,11 +47,16 @@ export const useCompetitionData = () => {
             store.setMatches(groupedMatches)
         } catch (e) {
             console.log(e)
+            authStore.logout();
         }
     }
 
     async function fetchMatchById(matchId: number) {
         try {
+            const refreshData = await refreshTokenRequest(authStore.refreshToken!);
+
+            authStore.setAccessToken(refreshData.data.accessToken);
+
             const response = await fetch(`/api/v4/matches/${matchId}`, {
                 headers: {
                     'X-Auth-Token': '35a54fdd83344a17bdf1a99dfc384df8',
@@ -53,6 +65,7 @@ export const useCompetitionData = () => {
             currentMatch.value = await response.json() as TMatch
         } catch (e) {
             console.log(e)
+            authStore.logout();
         }
     }
 
