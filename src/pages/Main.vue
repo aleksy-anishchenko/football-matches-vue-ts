@@ -28,7 +28,7 @@ import type { MatchSearchFilters as FiltersType } from "@/types/types";
 import { useCompetitionStore } from "@/stores/competitionStore.ts";
 import { useCompetitionData } from "@/composables/useCompetitionData.ts";
 import { onMounted } from 'vue';
-import { useUser } from "@/composables/useUser.ts";
+import { useAuthStore } from "@/stores/authStore.ts";
 import UserMenu from "@/components/UserMenu.vue";
 
 const { fetchCompetitionData } = useCompetitionData()
@@ -38,10 +38,10 @@ function handleSubmit(filters: FiltersType) {
   fetchCompetitionData(filters);
 }
 
-const { currentUser, fetchUser } = useUser();
+const { currentUser, getUser } = useAuthStore();
 
 onMounted(() => {
-  fetchUser();
+  getUser();
 });
 
 </script>

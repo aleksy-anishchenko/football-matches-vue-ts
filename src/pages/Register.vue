@@ -31,8 +31,11 @@ import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import { reactive } from "vue";
 
-import { useAuth } from "@/composables/useAuth.ts";
-const { handleRegister } = useAuth();
+import { useAuthStore} from "@/stores/authStore.ts";
+const { handleRegister } = useAuthStore();
+
+import { useRouter } from "vue-router";
+const router = useRouter()
 
 const form = reactive({
   email: "",
@@ -41,6 +44,7 @@ const form = reactive({
 
 function handleSubmit() {
   handleRegister(form);
+  router.push('/');
 }
 
 </script>

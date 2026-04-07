@@ -38,8 +38,8 @@
 import InputText from "primevue/inputtext";
 import Button from "primevue/button";
 import { reactive } from "vue";
-import { useAuth } from "@/composables/useAuth.ts";
-const { handleLogin } = useAuth();
+import { useAuthStore} from "@/stores/authStore.ts";
+const { handleLogin } = useAuthStore();
 import { useRouter } from "vue-router";
 const router = useRouter()
 
@@ -50,6 +50,7 @@ const form = reactive({
 
 function handleSubmit() {
   handleLogin(form);
+  router.push('/');
 }
 
 function handleButtonRegister(): void {

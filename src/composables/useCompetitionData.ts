@@ -47,7 +47,7 @@ export const useCompetitionData = () => {
             store.setMatches(groupedMatches)
         } catch (e) {
             console.log(e)
-            authStore.logout();
+            authStore.removeToken();
         }
     }
 
@@ -65,7 +65,7 @@ export const useCompetitionData = () => {
             currentMatch.value = await response.json() as TMatch
         } catch (e) {
             console.log(e)
-            authStore.logout();
+            authStore.removeToken();
         }
     }
 

@@ -5,7 +5,7 @@
       type="button"
       label="Выйти"
       severity="secondary"
-      @click="handleLogout"
+      @click="logoutHandler"
     />
 
   </div>
@@ -14,8 +14,16 @@
 <script setup lang="ts">
 import type { User } from "@/types/types";
 import Button from "primevue/button";
-import { useAuth } from "@/composables/useAuth.ts";
-const { handleLogout } = useAuth();
+import { useAuthStore } from "@/stores/authStore.ts";
+const { handleLogout } = useAuthStore();
+
+import { useRouter } from "vue-router";
+const router = useRouter()
+
+function logoutHandler() {
+  handleLogout();
+  router.push('/login');
+}
 
 defineProps<{
   user: User;
