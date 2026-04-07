@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import { useCompetitionStore } from "@/competitionStore.ts";
+import { useCompetitionStore } from "@/stores/competitionStore.ts";
 const store = useCompetitionStore()
 
 </script>

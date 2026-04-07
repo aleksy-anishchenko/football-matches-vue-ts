@@ -27,7 +27,6 @@
     <Button
         type="submit"
         label="Показать матчи"
-        severity="secondary"
     />
   </form>
 </template>
@@ -53,7 +52,7 @@ const isDateRangeInvalid = computed(() => {
 })
 
 const emit = defineEmits<{
-  (eventName: "filter-submit", payload: MatchSearchFilters): void
+  (eventName: "submit", payload: MatchSearchFilters): void
 }>();
 
 const competitionOptions: FilterOptionList = [
@@ -84,7 +83,7 @@ const competitionOptions: FilterOptionList = [
     filters.dateFrom = from;
     filters.dateTo = to;
 
-    emit("filter-submit", filters);
+    emit("submit", filters);
   }
 
 </script>
